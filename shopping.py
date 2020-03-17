@@ -5,7 +5,7 @@ import logging
 from collections import defaultdict
 
 # TODO: remove this and rely on command line arguments
-CUSTOM_ARGS = ['-i', 'inventories.json', '-l', 'shopping_list.json', '-v']
+CUSTOM_ARGS = ['-i', 'test/inventories.json', '-l', 'test/shopping_list.json', '-v']
 
 class ShoppingListSolver(object):
     """
