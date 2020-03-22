@@ -134,6 +134,9 @@ class ShoppingListSolver(object):
         logging.info("Found {} solutions!".format(len(self._solutions)))
         logging.info("Writing solutions to file: {}".format(outputFile))
 
+        if self._minSolLen == sys.maxsize:
+            self._minSolLen = 0
+        
         data = ["The shopping list can be satisfied by visiting {} store(s):".format(self._minSolLen)]
         for solution in self._solutions:
             data.append(", ".join([self._storesNames[storeID] for storeID in solution]))
