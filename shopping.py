@@ -87,23 +87,29 @@ class ShoppingListSolver(object):
         if currentIndex >= self._numStores:
             return
         
-        # Try without this store
+        # Ignore solutions longer than current solutions
+        if len(solutionSoFar) > self._minSolLen:
+            return
+        
+        # Recursively try solutions without this store included
         self._solveHelper(shoppingList, solutionSoFar, currentIndex+1)
 
         # Shop in current store
         inventory = self._storesInventories[currentIndex]
         remainingList = {k: max(v - inventory[k], 0) for k, v in shoppingList.items() if max(v - inventory[k], 0)}
 
-        # If this store contain any interesting items, try it
+        # If shopping cart didn't change, skip shopping at current store
         numRemaining = sum(remainingList.values())
         if numRemaining == sum(shoppingList.values()):
             return
         
-        # If solution is found, add it and update minimum. Otherwise, keep searching
+        # If solution is found, add current solution and update minimum found solution
         if numRemaining == 0:
             self._addSolution(solutionSoFar + [currentIndex])
-        else:
-            self._solveHelper(remainingList, solutionSoFar + [currentIndex], currentIndex+1)
+            return
+        
+        # Recursively try solutions with current store included
+        self._solveHelper(remainingList, solutionSoFar + [currentIndex], currentIndex+1)
 
 
     def _addSolution(self, solution):
